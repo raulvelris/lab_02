@@ -4,24 +4,32 @@
  */
 package tests;
 
-import violations.OrderService;
+import com.solid.corrected.OrderService;
+import com.solid.corrected.mock.MockLogger;
+import com.solid.corrected.mock.MockNotificationService;
+import com.solid.corrected.mock.MockRepository;
 
 /**
  *
  * @author jacks
  */
 public class OrderServiceTest {
-
     public static void main(String[] args) {
-        OrderService service = new OrderService();
+        // Arrange (mocks)
+        MockNotificationService n = new MockNotificationService();
+        MockLogger l = new MockLogger();
+        MockRepository r = new MockRepository();
 
-        // PROBLEMA: No podemos inyectar mocks para testing
-        // PROBLEMA: No podemos cambiar implementaciones sin modificar OrderService
-        // PROBLEMA: Testing es difícil porque hace operaciones reales (archivos, emails)
-        service.processOrder("CUSTOMER-123",
-                new String[]{"PRODUCT-1", "PRODUCT-2"},
-                "EMAIL");
+        OrderService svc = new OrderService(n, l, r);
 
-        service.cancelOrder("ORDER-123");
+        // Act  (¡sin argumentos con nombre!)
+        svc.processOrder("C1", new String[]{"P1", "P2"}, "EMAIL");
+
+        // Assert (activa -ea para que funcionen)
+        assert r.saved : "No se guardó el pedido en el repositorio";
+        assert n.sent  : "No se envió la notificación";
+        assert l.lastMessage != null : "No se generó log";
+
+        System.out.println("✓ Test con mocks OK (sin BD/archivos/emails reales)");
     }
 }
