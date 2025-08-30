@@ -1,0 +1,15 @@
+1. ¿Por qué la interfaz OrderProcessor viola ISP?
+La interfaz OrderProcessor viola el principio ISP porque concentra demasiadas responsabilidades en una sola definición, llegando a tener 16 métodos. Muchas clases, como BasicOrderProcessor, no necesitan la mayoría de ellos, pero aun así se ven obligadas a implementarlos lanzando UnsupportedOperationException. Esto convierte a la interfaz en una fat interface, que mezcla gestión de órdenes, pagos, envíos, inventario, notificaciones y reportes, obligando a los clientes a depender de métodos que no utilizan.
+
+2. Problemas de forzar implementaciones innecesarias
+El primer problema es que las clases se vuelven más complejas de lo necesario, como ocurre con BasicOrderProcessor, que implementa 13 métodos inútiles. Además, el código se vuelve frágil: cualquier cambio en la interfaz afecta a todas las implementaciones. También se dificulta el mantenimiento y las pruebas, porque hay métodos que generan ruido y aumentan el riesgo de errores. Por último, se pierde flexibilidad, ya que las clases no pueden implementar únicamente lo que necesitan.
+
+3. Diseño correcto con ISP (Interfaces más pequeñas)
+La solución es dividir la interfaz en contratos más pequeños y específicos según las responsabilidades. Por ejemplo:
+
+OrderManager → gestión de órdenes
+PaymentHandler → manejo de pagos y reembolsos
+ShippingService → envíos y seguimiento
+InventoryManager → inventario y reservas
+NotificationSender → notificaciones
+ReportGenerator → reportes
