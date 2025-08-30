@@ -1,0 +1,15 @@
+Pregunta 1: Explica por qué se viola el principio LSP con ejemplos específicos
+
+Respuesta:
+
+El principio de Sustitución de Liskov, establece que si S es una subclase de T, entonces
+los objetos de tipo T pueden ser reemplazados por objetos de tipo S sin alterar
+las propiedades
+
+Por ejemplo: 
+
+1.- DigitalProduct.calculateShippingCost() lanza una excepción (UnsupportedOperationException), la cual rompe con LSP porque un Product debería poder calcular un costo de envío, pero el digital no lo soporta
+
+2.- ServiceProduct.calculateShippingCost() retorna 0, lo que crea un comportamiento inconsistente con lo que significa “enviar un producto”.
+
+3.- processOrder() de Product depende de calculateShippingCost(), si se llama con un DigitalProduct o ServiceProduct, el método falla o devuelve resultados incorrectos.

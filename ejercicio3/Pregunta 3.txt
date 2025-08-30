@@ -1,0 +1,13 @@
+Pregunta 3: Rediseña la jerarquía de clases para que todas las subclases sean completamente sustituibles
+Respuesta:
+
+El rediseño pasaría a ser: 
+
+1.- Mantener Product como una clase abstracta con lo básico (precio, nombre).
+
+2.- Crear interfaces específicas según el tipo de producto:
+- Shippable: para productos físicos.
+- Downloadable: para productos digitales.
+- Serviceable: para servicios.
+
+3.- Cada subclase implementa únicamente las interfaces que le corresponden.

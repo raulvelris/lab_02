@@ -1,0 +1,16 @@
+Pregunta 2: Identificar los problemas de sustituibilidad en el código de prueba
+Respuesta: 
+
+Problemas encontrados:
+
+1.- Excepción en DigitalProduct:
+
+Un DigitalProduct no puede sustituir a Product porque rompe la ejecución con una excepción en calculateShippingCost(
+
+2.- Resultado engañoso en ServiceProduct:
+
+Un ServiceProduct devuelve 0 en costo de envío, lo cual engaña al cliente del código. Técnicamente compila, pero produce un resultado incorrecto, lo cual es inconsistencia lógica.
+
+3.- Dependencia de métodos no aplicables:
+
+Product fuerza a todas las subclases a implementar métodos que no tienen sentido para su naturaleza
