@@ -44,8 +44,23 @@ public class SolidViolationsDemo {
         // TODO: Implementar demostración
     }
     
-    private static void demonstrateDIPViolation() {
-        System.out.println("--- DIP Violation ---");
-        // TODO: Implementar demostración
-    }
+    public static void demonstrateDIPViolation() {
+    System.out.println("=== DIP: Antes (violación) ===");
+    // SIN import de 'violations'
+    violations.OrderService oldSvc = new violations.OrderService();
+    oldSvc.processOrder("C0", new String[]{"P0"}, "EMAIL"); // ⚠️ puede tener efectos
+
+    System.out.println("\n=== DIP: Después (corregido) ===");
+    com.solid.corrected.OrderService newSvc =
+            com.solid.corrected.DependencyInjector.createOrderService();
+    newSvc.processOrder("C1", new String[]{"P1","P2"}, "EMAIL");
+
+    System.out.println("\n=== DIP: Test con mocks ===");
+    com.solid.corrected.OrderService testSvc = new com.solid.corrected.OrderService(
+            new com.solid.corrected.mock.MockNotificationService(),
+            new com.solid.corrected.mock.MockLogger(),
+            new com.solid.corrected.mock.MockRepository()
+    );
+    testSvc.processOrder("C2", new String[]{"P3"}, "EMAIL");
+}
 }
